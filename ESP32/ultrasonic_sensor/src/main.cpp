@@ -11,12 +11,19 @@
 #include <rclc/executor.h>
 
 #include <std_msgs/msg/bool.h>
+#include <sensor_msgs/msg/range.h>
+#include <range_sensors_interfaces/msg/sensor_information.h>
 
+#define WIFI_SSID "BirdsBoven"
+#define PASSWORD "Highway12!"
+#define NODE_NAME "'sensor_info_publisher'"
+#define PORT 1234
 
 rcl_publisher_t sensor_information_publisher;
 
 rclc_executor_t executor;
 
+range_sensors_interfaces__msg__SensorInformation sensor_information;
 
 rclc_support_t support;
 rcl_allocator_t allocator;
@@ -24,7 +31,7 @@ rcl_node_t node;
 
 #define STATUS_LED 3
 
-
+int ip_address[] = {192, 168, 2, 15};
 IPAddress agent_ip(ip_address[0], ip_address[1], ip_address[2], ip_address[3]);
 
 
@@ -40,11 +47,11 @@ bool errorLedState = false;
 
 #define STATUS_LED_PIN    8
 
-
-
+#define MAX_RANGE  1.00
+#define MIN_RANGE  0.10
 
 void error_loop(){
-  Serial.printf("Light RGB controller\nError\nSystem halted");
+  Serial.printf("Ultrasonic Sensor\nError\nSystem halted");
   while(1){
       
         if(errorLedState){
@@ -59,16 +66,26 @@ void error_loop(){
   }
 }
 
-
-
 void timer_callback(rcl_timer_t * timer, int64_t last_call_time) {
   RCLC_UNUSED(last_call_time);
   if (timer != NULL) {
-    RCSOFTCHECK(rcl_publish(&sensor_information_publisher, &scenery_light_status[scenery_light_state_index], NULL));
+
+    // Fill in the header information.
+    //sensor_informationheader.stamp = rospy.Time.now();
+    //sensor_information.header.frame_id = 'distance_sensor_frame';
+
+   //sensor_information.maker_name = "Avans";
+   // sensor_information.part_number = 
+
+    // Fill in the sensor data information.
+    sensor_information.sensor_data.radiation_type = sensor_msgs__msg__Range__ULTRASOUND;
+    sensor_information.sensor_data.field_of_view = 0.5; // Field of view of the sensor in rad.
+    sensor_information.sensor_data.min_range = MIN_RANGE; // Minimum distance range of the sensor in m.
+    sensor_information.sensor_data.max_range = MAX_RANGE; // Maximum distance range of the sensor in m.
+
+    RCSOFTCHECK(rcl_publish(&sensor_information_publisher, &sensor_information, NULL));
   }
 }
-
-
 
 
 void setup() {
@@ -78,17 +95,12 @@ void setup() {
   delay(2000);
   Serial.print("Light-controller started, node: ");
   Serial.println(NODE_NAME);
-
-  EEPROM.begin(sizeof(EEPROM_STORE) * NUMBER_OF_SCENERY_LIGHTS);
-
+#if 1
 
   pinMode(STATUS_LED_PIN, OUTPUT); 
   digitalWrite(STATUS_LED_PIN, HIGH);
 
-
-
-  const char *host_name = convertToCamelCase(NODE_NAME);
-  Serial.printf("hostname :%s\n", host_name);
+  Serial.printf("hostname :%s\n", NODE_NAME);
   WiFi.setHostname(NODE_NAME);
 
     // Set WiFi to station mode and disconnect from an AP if it was previously connected.
@@ -114,20 +126,9 @@ void setup() {
   Serial.println(WiFi.macAddress());
 #endif
 
-
   set_microros_wifi_transports(WIFI_SSID, PASSWORD, agent_ip, (size_t)PORT);
-  //neopixelWrite(RGB_BUILTIN,0,0,RGB_BRIGHTNESS);
-#if defined(ARDUINO_ESP32C3_DEV)
-#elif defined(ARDUINO_ESP32S3_DEV)
-  ws2812fxStatus.setColor(0, 0, RGB_BRIGHTNESS);
-  ws2812fxStatus.service();
-#else
-    "Unknown Platform"
-#endif
-
 
   Serial.printf(" Scenery Light Control WiFi Connected\n");
-
 
   allocator = rcl_get_default_allocator();
 
@@ -137,16 +138,12 @@ void setup() {
   // create node
   RCCHECK(rclc_node_init_default(&node, NODE_NAME, "", &support));
 
-  char topic_name[40];
-
-
-  sprintf(topic_name, "railtrack/scenery/status");
   // create sensor_information_publisher
   RCCHECK(rclc_publisher_init_default(
     &sensor_information_publisher,
     &node,
-    ROSIDL_GET_MSG_TYPE_SUPPORT(railway_interfaces, msg, SceneryState),
-    topic_name));
+    ROSIDL_GET_MSG_TYPE_SUPPORT(range_sensors_interfaces, msg, SensorInformation),
+    "sensor_info"));
 
   // create timer,
 
@@ -163,11 +160,12 @@ void setup() {
  
     Serial.println("Light-controller ready");
     digitalWrite(STATUS_LED_PIN, LOW);
-
+#endif
 }
 
 void loop() {
   delay(100);
+#if 1
   RCSOFTCHECK(rclc_executor_spin_some(&executor, RCL_MS_TO_NS(100)));
-
+#endif
 }

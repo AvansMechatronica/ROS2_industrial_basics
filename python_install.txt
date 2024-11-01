@@ -1,0 +1,1 @@
+https://docs.platformio.org/en/latest/faq/install-python.html
