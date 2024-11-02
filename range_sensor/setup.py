@@ -24,7 +24,12 @@ setup(
             'template_subscriber_script = range_sensor.template_subscriber_script:main',
             'sensor_info_publisher_simulation = range_sensor.sensor_info_publisher_simulation:main',
             'sensor_info_subscriber = range_sensor.sensor_info_subscriber:main',
+            'metres_to_inches_server = range_sensor.metres_to_inches_server:main',
+            'metres_to_inches_client = range_sensor.metres_to_inches_client:main',
+            'counter_with_delay_action_server = range_sensor.counter_with_delay_action_server:main',
+            'counter_with_delay_action_client = range_sensor.counter_with_delay_action_client:main',
             'assignment1 = range_sensor.assignment1:main',
+            'assignment2 = range_sensor.assignment2:main',
         ],
     },
 )

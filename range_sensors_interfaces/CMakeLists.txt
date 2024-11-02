@@ -31,6 +31,8 @@ find_package(rosidl_default_generators REQUIRED)
 rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/SensorInformation.msg"
   "msg/BoxHeightInformation.msg"
+  "srv/ConvertMetresToInches.srv"
+  "action/CounterWithDelay.action"
   DEPENDENCIES 
   std_msgs
   sensor_msgs

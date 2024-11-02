@@ -109,6 +109,8 @@ void setup() {
   pinMode(STATUS_LED_PIN, OUTPUT); 
   digitalWrite(STATUS_LED_PIN, HIGH);
 
+#ifdef WIFI
+
   Serial.printf("hostname :%s\n", NODE_NAME);
   WiFi.setHostname(NODE_NAME);
 
@@ -136,7 +138,10 @@ void setup() {
 #endif
 
   set_microros_wifi_transports(WIFI_SSID, PASSWORD, agent_ip, (size_t)PORT);
-#if 0
+#else
+  #if !defined(MICRO_ROS_TRANSPORT_ARDUINO_SERIAL)
+  #error This example is only avaliable for Arduino framework with serial transport.
+  #endif
   Serial.begin(115200);
   set_microros_serial_transports(Serial);
   delay(2000);
