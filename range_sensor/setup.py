@@ -20,7 +20,11 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            'template_publisher_script = range_sensor.template_publisher_script:main',
+            'template_subscriber_script = range_sensor.template_subscriber_script:main',
             'sensor_info_publisher_simulation = range_sensor.sensor_info_publisher_simulation:main',
+            'sensor_info_subscriber = range_sensor.sensor_info_subscriber:main',
+            'assignment1 = range_sensor.assignment1:main',
         ],
     },
 )
