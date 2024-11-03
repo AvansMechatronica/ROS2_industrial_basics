@@ -35,8 +35,6 @@ class Assignment2(Node):
         else:
             metres_to_inches_client.get_logger().info("Invalis request value")
 
-
-
         # Write a log message here to print the height of this box in feet.
 
     def box_height_callback(self, box_height):
