@@ -1,0 +1,7 @@
+float32     goal_float_value  
+int32       goal_int_value
+string      goal_string_value
+---
+string      result_string_value		
+---
+uint32      feedback_int_vale		

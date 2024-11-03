@@ -4,7 +4,7 @@
 #include <thread>
 
 #include "rclcpp/rclcpp.hpp"
-#include "rclcpp/action/action_server.hpp"
+#include "rclcpp_action/rclcpp_action.hpp"
 #include "range_sensors_interfaces/action/counter_with_delay.hpp"
 
 using namespace std::chrono_literals;

@@ -1,0 +1,6 @@
+float32     request_float_value  
+int32       request_int_value
+string      request_string_value
+---
+float64     response_float_value		# Response message
+bool        success			            # Response message: Success or failure of conversion.

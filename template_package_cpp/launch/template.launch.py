@@ -6,7 +6,7 @@ def generate_launch_description():
     return LaunchDescription([
         # Start the template publisher ROS node
         Node(
-            package='range_sensor_cpp',
+            package='template_package_cpp',
             executable='template_publisher',
             name='node_1',
             output='screen'
@@ -14,7 +14,7 @@ def generate_launch_description():
         
         # Start the template subscriber ROS node
         Node(
-            package='range_sensor_cpp',
+            package='template_package_cpp',
             executable='template_subscriber',
             name='node_2',
             output='screen'

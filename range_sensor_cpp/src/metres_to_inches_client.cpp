@@ -11,7 +11,7 @@ public:
 
     MetresToInchesClientAsync() : Node("metres_to_inches_client_async") {
         client_ = this->create_client<ConvertMetresToInches>("metres_to_inches");
-        while (!client_->wait_for_service(1s)) {
+        while (!client_->wait_for_service(std::chrono::seconds(1))) {
             if (!rclcpp::ok()) {
                 RCLCPP_ERROR(this->get_logger(), "Interrupted while waiting for the service. Exiting.");
                 return;

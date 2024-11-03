@@ -11,21 +11,62 @@ find_package(rclcpp REQUIRED)  # Add this if your node uses rclcpp
 find_package(range_sensors_interfaces REQUIRED)
 find_package(sensor_msgs REQUIRED)
 
-# Add the executable target
-#add_executable(sensor_info_subscriber src/sensor_info_subscriber.cpp)
-#add_executable(metres_to_inches_server src/metres_to_inches_server.cpp)
-#add_executable(metres_to_inches_client src/metres_to_inches_client.cpp)
-#add_executable(counter_with_delay_action_server src/counter_with_delay_action_server.cpp)
-#add_executable(counter_with_delay_action_client src/counter_with_delay_action_client.cpp)
-#add_executable(assignment1 src/assignment1.cpp)
-#add_executable(assignment2 src/assignment2.cpp)
-
+# Add the executable targets
 add_executable(sensor_info_publisher_simulation src/sensor_info_publisher_simulation.cpp)
 ament_target_dependencies(sensor_info_publisher_simulation 
   rclcpp
   range_sensors_interfaces 
   sensor_msgs
 )
+
+add_executable(sensor_info_subscriber src/sensor_info_subscriber.cpp)
+ament_target_dependencies(sensor_info_subscriber 
+  rclcpp
+  range_sensors_interfaces 
+  sensor_msgs
+)
+
+add_executable(metres_to_inches_server src/metres_to_inches_server.cpp)
+ament_target_dependencies(metres_to_inches_server 
+  rclcpp
+  range_sensors_interfaces 
+  sensor_msgs
+)
+
+add_executable(metres_to_inches_client src/metres_to_inches_client.cpp)
+ament_target_dependencies(metres_to_inches_client 
+  rclcpp
+  range_sensors_interfaces 
+  sensor_msgs
+)
+
+#add_executable(counter_with_delay_action_server src/counter_with_delay_action_server.cpp)
+#ament_target_dependencies(counter_with_delay_action_server 
+#  rclcpp
+#  range_sensors_interfaces 
+#  sensor_msgs
+#)
+
+#add_executable(counter_with_delay_action_client src/counter_with_delay_action_client.cpp)
+#ament_target_dependencies(counter_with_delay_action_client 
+#  rclcpp
+#  range_sensors_interfaces 
+#  sensor_msgs
+#)
+
+#add_executable(assignment1 src/assignment1.cpp)
+#ament_target_dependencies(assignment1 
+#  rclcpp
+#  range_sensors_interfaces 
+#  sensor_msgs
+#)
+
+#add_executable(assignment2 src/assignment2.cpp)
+#ament_target_dependencies(assignment2 
+#  rclcpp
+#  range_sensors_interfaces 
+#  sensor_msgs
+#)
 
 add_executable(template_publisher src/template_publisher.cpp)
 ament_target_dependencies(template_publisher
@@ -48,6 +89,13 @@ install(
 # Install nodes
 install(
   TARGETS sensor_info_publisher_simulation
+          sensor_info_subscriber
+          metres_to_inches_server
+          metres_to_inches_client
+#          counter_with_delay_action_server
+#          counter_with_delay_action_client
+#          assignment1
+#          assignment2
           template_publisher
           template_subscriber
   DESTINATION lib/${PROJECT_NAME}
