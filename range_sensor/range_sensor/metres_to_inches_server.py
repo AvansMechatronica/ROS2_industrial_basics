@@ -24,7 +24,6 @@ class MetresToInchesService(Node):
 
         return response
 
-
 def main():
     rclpy.init()
     metres_to_inches_service = MetresToInchesService()

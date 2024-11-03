@@ -21,9 +21,7 @@ class CounterWithDelayClient(Node):
         goal_msg.num_counts = num_counts
 
         self._counter_with_delay_client.wait_for_server()
-
-        self._send_goal_future = self._counter_with_delay_client.send_goal_async(goal_msg)
-
+        self._send_goal_future = self._counter_with_delay_client.send_goal_async(goal_msg, feedback_callback=self.feedback_callback)
         self._send_goal_future.add_done_callback(self.goal_response_callback)
 
     def goal_response_callback(self, future):
@@ -33,13 +31,16 @@ class CounterWithDelayClient(Node):
             return
 
         self.get_logger().info('Goal accepted :)')
-
         self._get_result_future = goal_handle.get_result_async()
         self._get_result_future.add_done_callback(self.get_result_callback)
 
+    def feedback_callback(self, feedback_msg):
+        feedback = feedback_msg.feedback
+        self.get_logger().info('Received feedback: {0}'.format(feedback.counts_elapsed))
+
     def get_result_callback(self, future):
         result = future.result().result
-        self.get_logger().info('Result: {0}'.format(result.sequence))
+        self.get_logger().info('Result: {0}'.format(result.result_message))
         rclpy.shutdown()
 
 

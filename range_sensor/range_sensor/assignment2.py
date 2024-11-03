@@ -5,41 +5,57 @@
 # service to convert this height in metres to height in feet.
 
 
-import rospy
-from range_sensor_msgs.msg import BoxHeightInformation
-from range_sensor_msgs.srv import ConvertMetresToFeet, ConvertMetresToFeetRequest, ConvertMetresToFeetResponse
+import rclpy
+from rclpy.node import Node
+from range_sensors_interfaces.msg import BoxHeightInformation
+from range_sensors_interfaces.srv import ConvertMetresToInches
 
-def box_height_info_callback(data):
-    try:
-        # Create a proxy for the service to convert metres to feet - Part2.
-        metres_to_feet = rospy.ServiceProxy('metres_to_feet', ConvertMetresToFeet)
+class Assignment2(Node):
 
-        # Extract box_height_meters from data
-	box_height_meters = data.box_height
+    def __init__(self):
+        super().__init__('assignment2_async')
+        self.convert_meters_to_inches_client = self.create_client(ConvertMetresToInches, 'metres_to_inches')
+        while not self.convert_meters_to_inches_client.wait_for_service(timeout_sec=1.0):
+            self.get_logger().info('service not available, waiting again...')
+        self.request = ConvertMetresToInches.Request()
 
-        # Call the service here.
-        service_response = metres_to_feet(box_height_meters)
+        self.subscription = self.create_subscription(
+            BoxHeightInformation,
+            'box_height_info',
+            self.box_height_callback,
+            10)
+        self.subscription  # prevent unused variable warning
 
-        # Extract box_height_feet from service_response
-        box_height_feet = service_response.distance_feet
+    def send_request(self, metres):
+        self.request.distance_metres = metres
+        response = self.convert_meters_to_inches_client.call_async(self.request)
+        if  response.success:
+            self.get_logger().info('I heard: "%s"' % response.Response)
+            #self.get_logger().info("The hight of the box is %4.2f metres or %4.2f inches" %(metres, response.distance_inches)) 
+        else:
+            metres_to_inches_client.get_logger().info("Invalis request value")
+
+
 
         # Write a log message here to print the height of this box in feet.
-        rospy.loginfo("The hight of the box is %4.2f metres or %4.2f feet" %(box_height_meters, box_height_feet)) 
 
-    except rospy.ServiceException, e:
-        print "Service call failed: %s"%e
+    def box_height_callback(self, box_height):
+        self.send_request(box_height.box_height)
+
+
+def main():
+    rclpy.init()
+
+    assignment2 = Assignment2()
+
+    rclpy.spin(assignment2)
+
+    # Destroy the node explicitly
+    # (optional - otherwise it will be done automatically
+    # when the garbage collector destroys the node object)
+    assignment2.destroy_node()
+    rclpy.shutdown()
+
 
 if __name__ == '__main__':
-    # Initialize the ROS node here.
-    rospy.init_node('box_height_in_feet', anonymous = False)
-
-    # First wait for the service to become available - Part2.
-    rospy.loginfo("Waiting for service...")
-    rospy.wait_for_service('metres_to_feet')
-    rospy.loginfo("Service %s is now available", 'metres_to_feet')
-
-    # Create a subscriber to the box height topic - Part1.
-    rospy.Subscriber('box_height_info', BoxHeightInformation, box_height_info_callback)
-
-    # Prevent this ROS node from terminating until Ctrl+C is pressed.
-    rospy.spin()
+    main()
