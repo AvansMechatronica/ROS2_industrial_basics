@@ -11,6 +11,7 @@ find_package(rclcpp REQUIRED)  # Add this if your node uses rclcpp
 find_package(range_sensors_interfaces REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(rclcpp_action REQUIRED)
+find_package(rclcpp_components REQUIRED)
 
 # Add the executable targets
 add_executable(sensor_info_publisher_simulation src/sensor_info_publisher_simulation.cpp)
@@ -42,13 +43,14 @@ ament_target_dependencies(metres_to_inches_client
   sensor_msgs
 )
 
-add_executable(counter_with_delay_action_server src/counter_with_delay_action_server.cpp)
-ament_target_dependencies(counter_with_delay_action_server 
-  rclcpp
-  range_sensors_interfaces 
-  sensor_msgs
-  rclcpp_action
-)
+#add_executable(counter_with_delay_action_server src/counter_with_delay_action_server.cpp)
+#ament_target_dependencies(counter_with_delay_action_server 
+#  rclcpp
+#  range_sensors_interfaces 
+#  sensor_msgs
+#  rclcpp_action
+#  rclcpp_components
+#)
 
 #add_executable(counter_with_delay_action_client src/counter_with_delay_action_client.cpp)
 #ament_target_dependencies(counter_with_delay_action_client 
@@ -96,7 +98,7 @@ install(
           sensor_info_subscriber
           metres_to_inches_server
           metres_to_inches_client
-          counter_with_delay_action_server
+#          counter_with_delay_action_server
 #          counter_with_delay_action_client
           assignment1
 #          assignment2

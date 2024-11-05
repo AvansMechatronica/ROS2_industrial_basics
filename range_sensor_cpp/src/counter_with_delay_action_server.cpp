@@ -5,6 +5,7 @@
 
 #include "rclcpp/rclcpp.hpp"
 #include "rclcpp_action/rclcpp_action.hpp"
+#include "rclcpp_components/register_node_macro.hpp"
 #include "range_sensors_interfaces/action/counter_with_delay.hpp"
 
 using namespace std::chrono_literals;
@@ -17,15 +18,14 @@ public:
   explicit CounterWithDelayServer(const rclcpp::NodeOptions & options = rclcpp::NodeOptions())
   : Node("counter_with_delay_action_server", options)
   {
-    using namespace std::placeholders;
-#if 0
+
+#error: waarom gaat dit mis?
     this->action_server_ = rclcpp_action::create_server<CounterWithDelay>(
       this,
       "counter_with_delay_action_server",
       std::bind(&CounterWithDelayServer::handle_goal, this, std::placeholders::_1, std::placeholders::_2),
       std::bind(&CounterWithDelayServer::handle_cancel, this, std::placeholders::_1),
       std::bind(&CounterWithDelayServer::handle_accepted, this, std::placeholders::_1));
-#endif
   }
 
   
