@@ -17,7 +17,8 @@ public:
 private:
     void sensor_info_callback(const range_sensors_interfaces::msg::SensorInformation::SharedPtr sensor_info) {
         // Log the received sensor information
-        //RCLCPP_INFO(this->get_logger(), "I heard: '%s'", sensor_info->data.c_str());
+        //RCLCPP_INFO(this->get_logger(), "I heard: '%s'", sensor_info->c_str());
+        RCLCPP_INFO(this->get_logger(), "I heard a distance: '%f'", sensor_info->sensor_data.range);
         // Adjust the logging statement based on the actual data structure of SensorInformation
     }
 

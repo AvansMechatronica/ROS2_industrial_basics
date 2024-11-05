@@ -8,7 +8,7 @@ def generate_launch_description():
     # Declare the `sim` argument with a default value of `false`
     sim_arg = DeclareLaunchArgument(
         'sim', 
-        default_value='false',
+        default_value='true',
         description='Set to true to run in simulation mode'
     )
 
