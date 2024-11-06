@@ -33,7 +33,7 @@ public:
             auto response = future.get();
             if (response->success) {
                 RCLCPP_INFO(this->get_logger(),
-                            "Result of metres_to_inches: for %f = %f",
+                            "Result of metres_to_inches: for %f metres = %f inch",
                             metres, response->distance_inches);
             } else {
                 RCLCPP_ERROR(this->get_logger(), "Invalid request value");

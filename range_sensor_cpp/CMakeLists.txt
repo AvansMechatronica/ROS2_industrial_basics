@@ -67,12 +67,12 @@ ament_target_dependencies(assignment1
   sensor_msgs
 )
 
-#add_executable(assignment2 src/assignment2.cpp)
-#ament_target_dependencies(assignment2 
-#  rclcpp
-#  range_sensors_interfaces 
-#  sensor_msgs
-#)
+add_executable(assignment2 src/assignment2.cpp)
+ament_target_dependencies(assignment2 
+  rclcpp
+  range_sensors_interfaces 
+  sensor_msgs
+)
 
 add_executable(template_publisher src/template_publisher.cpp)
 ament_target_dependencies(template_publisher
@@ -101,7 +101,7 @@ install(
 #          counter_with_delay_action_server
 #          counter_with_delay_action_client
           assignment1
-#          assignment2
+          assignment2
           template_publisher
           template_subscriber
   DESTINATION lib/${PROJECT_NAME}

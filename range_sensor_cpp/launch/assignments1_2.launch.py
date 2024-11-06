@@ -31,23 +31,23 @@ def generate_launch_description():
     box_height_metres_node = Node(
         package='range_sensor_cpp',
         executable='assignment1',
-        name='box_height_metres',
+        name='box_height_metresx',
         output='screen'
     )
 
     # Define the metres_to_feet service server node
-    metres_to_feet_node = Node(
+    metres_to_inch_node = Node(
         package='range_sensor_cpp',
         executable='metres_to_inches_server',
-        name='metres_to_inches',
+        name='metres_to_inchesx',
         output='screen'
     )
 
       # Define the BoxHeightInformation subscriber / convert to feet node (Assignment 2)
-    box_height_feet_node = Node(
+    box_height_inch_node = Node(
         package='range_sensor_cpp',
         executable='assignment2',
-        name='box_height_feet',
+        name='box_height_inchx',
         output='screen'
     )
 
@@ -56,6 +56,6 @@ def generate_launch_description():
         sim_arg,
         sensor_info_publisher_include,
         box_height_metres_node,
-        metres_to_feet_node,
-        box_height_feet_node
+        metres_to_inch_node,
+        box_height_inch_node
     ])

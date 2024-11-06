@@ -30,7 +30,7 @@ def main():
     response = future.result()
     if  response.success:
         metres_to_inches_client.get_logger().info(
-            'Result of metres_to_inches: for %f = %f' %
+            'Result of metres_to_inches: for %f meters = %f inches' %
             (dist_metres, response.distance_inches))
     else:
         metres_to_inches_client.get_logger().info("Invalis request value")
